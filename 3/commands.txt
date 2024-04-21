@@ -1,0 +1,7 @@
+use pandemic;
+SELECT entity_id, AVG(Number_rabies) AS average_rabies, MIN(Number_rabies) AS min_rabies, MAX(Number_rabies) AS max_rabies
+FROM infectious_cases_norm
+WHERE Number_rabies != ''
+GROUP BY entity_id
+ORDER BY average_rabies DESC
+LIMIT 10;

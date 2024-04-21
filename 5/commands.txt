@@ -1,0 +1,38 @@
+5.1.
+ DROP FUNCTION IF EXISTS diff_years;
+DELIMITER // 
+CREATE FUNCTION diff_years(year INT) 
+RETURNS INT
+DETERMINISTIC 
+NO SQL
+BEGIN
+    RETURN TIMESTAMPDIFF(YEAR,MAKEDATE(year, 1),CURDATE());
+END //
+
+DELIMITER ;
+SELECT diff_years('1994') 
+
+5.2
+use pandemic;
+SELECT year, MAKEDATE(year, 1) as given_date, CURDATE() as `current_date`, diff_years(year) as diff_years
+FROM infectious_cases_norm;
+
+5.3
+DROP FUNCTION IF EXISTS calculate_cases_per_period;
+DELIMITER //
+CREATE FUNCTION calculate_cases_per_period(total_cases TEXT, period INT)
+RETURNS TEXT 
+DETERMINISTIC
+NO SQL
+BEGIN
+DECLARE result TEXT;
+IF total_cases ='' THEN
+RETURN '';
+END IF;
+SET result = total_cases/ period;
+RETURN result;
+END//
+
+DELIMITER ;
+SELECT Number_malaria, calculate_cases_per_period(Number_malaria, 4) from infectious_cases_norm
+  

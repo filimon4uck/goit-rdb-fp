@@ -1,0 +1,54 @@
+2.1. CREATE TABLE entities(
+   entity_id INT AUTO_INCREMENT PRIMARY KEY, 
+    entity VARCHAR(50), 
+    code VARCHAR(50));
+SELECT * FROM entities;
+
+2.2.  INSERT INTO entities (entity, code)
+ SELECT DISTINCT entity, code FROM infectious_cases; 
+ SELECT * FROM entities;
+
+2.3. CREATE TABLE infectious_cases_norm(case_id INT AUTO_INCREMENT PRIMARY KEY,
+entity_id INT,
+year YEAR ,
+Number_yaws TEXT,
+polio_cases INT,
+cases_guinea_worm INT,
+Number_rabies TEXT,
+Number_malaria TEXT,
+Number_hiv TEXT,
+Number_tuberculosis TEXT,
+Number_smallpox TEXT,
+Number_cholera_cases TEXT,
+FOREIGN KEY (entity_id) REFERENCES entities(entity_id));
+
+select *  from infectious_cases_norm;
+
+2.4. INSERT INTO infectious_cases_norm(
+`entity_id`,
+`year`  ,
+`Number_yaws`,
+`polio_cases` ,
+`cases_guinea_worm` ,
+`Number_rabies` ,
+`Number_malaria` ,
+`Number_hiv` ,
+`Number_tuberculosis` ,
+`Number_smallpox` ,
+`Number_cholera_cases` 
+)
+SELECT `entity_id`,
+`year`  ,
+`Number_yaws`,
+`polio_cases` ,
+`cases_guinea_worm` ,
+`Number_rabies` ,
+`Number_malaria` ,
+`Number_hiv` ,
+`Number_tuberculosis` ,
+`Number_smallpox` ,
+`Number_cholera_cases`
+FROM infectious_cases inf_cas
+INNER JOIN entities ent ON inf_cas.Entity=ent.entity AND inf_cas.code = ent.code ;
+
+select * from `infectious_cases_norm`
